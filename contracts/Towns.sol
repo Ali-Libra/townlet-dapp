@@ -55,22 +55,19 @@ contract Towns {
         return (town.townName, town.townAddress, town.time);
     }
 
-    function getAllTowns() external view returns (
-        string[] memory names,
-        string[] memory addresses_
-    ) {
+    function getAllTowns() external view returns (string[] memory names_, string[] memory addresses_) {
         uint256 len = townOwners.length;
-        names = new string[](len);
+        names_ = new string[](len);
         addresses_ = new string[](len);
 
         for (uint256 i = 0; i < len; i++) {
             address owner = townOwners[i];
             Town storage town = indexs[owner];
-            names[i] = town.townName;
+            names_[i] = town.townName;
             addresses_[i] = town.townAddress;
         }
 
-        return (names, addresses_);
+        return (names_, addresses_);
     }
 
     function getTownsCount() external view returns (uint256) {
