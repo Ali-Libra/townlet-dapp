@@ -8,10 +8,10 @@ contract TownList {
         uint64 time; // 记录时间戳，0表示无数据
     }
 
+    event DebugLog(string message);
+
     mapping(address => Town) public indexs;
     address[] public townOwners;
-
-    event TownAddedOrUpdated(string name, string townAddress, uint64 time, address owner);
 
     function townRegistry(string calldata _name, string calldata _townAddress) external {
         Town storage town = indexs[msg.sender];
@@ -24,12 +24,6 @@ contract TownList {
         town.townName = _name;
         town.townAddress = _townAddress;
         town.time = uint64(block.timestamp);
-
-        emit TownAddedOrUpdated(_name, _townAddress, town.time, msg.sender);
-    }
-
-    function townOffline(string calldata _name, string calldata _townAddress) external {
-
     }
 
     function townHearBeat() external {
@@ -41,6 +35,17 @@ contract TownList {
         }
 
         town.time = uint64(block.timestamp);
+    }
+
+    function townOffline() external {
+        Town storage town = indexs[msg.sender];
+
+        // 如果之前没有注册（time==0），则push地址
+        if (town.time == 0) {
+            return;
+        }
+
+        town.time = 1;
     }
 
     function getMyTown() external view returns (string memory, string memory, uint64) {
@@ -62,7 +67,7 @@ contract TownList {
 
         for (uint256 i = 0; i < len; i++) {
             address owner = townOwners[i];
-            Town storage town = indexs[owner];
+            Town memory town = indexs[owner];
             names_[i] = town.townName;
             addresses_[i] = town.townAddress;
         }
