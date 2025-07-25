@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.28;
 
 contract TownList {
     struct Town {
@@ -7,8 +7,6 @@ contract TownList {
         string townAddress;
         uint64 time; // 记录时间戳，0表示无数据
     }
-
-    event DebugLog(string message);
 
     mapping(address => Town) public indexs;
     address[] public townOwners;
