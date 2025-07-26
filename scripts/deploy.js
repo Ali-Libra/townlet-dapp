@@ -4,13 +4,16 @@ async function main() {
   const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
 
-  const ContractFactory = await hre.ethers.getContractFactory("TownList");
-  const contract = await ContractFactory.deploy();
+  const TownsFactory  = await hre.ethers.getContractFactory("Towns");
+  const towns  = await TownsFactory.deploy();
+  await towns.waitForDeployment();
+  const townAddress = await towns.getAddress();
+  console.log("towns contract deployed to:", townAddress);
 
-  // v6 部署后，等待交易确认要用 contract.deploymentTransaction().wait()
-  await contract.deploymentTransaction().wait();
-
-  console.log("deployed to:", contract.target);
+  const TownMapFactory = await hre.ethers.getContractFactory("TownMaps");
+  const townMap = await TownMapFactory.deploy(townAddress);
+  await townMap.waitForDeployment();
+  console.log("townMap deployed to:", await townMap.getAddress());
 }
 
 main()
