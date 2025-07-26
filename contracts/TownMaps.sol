@@ -27,7 +27,7 @@ contract TownMaps {
         uint256[] calldata _terrain
     ) external {
         require(_index.length == _terrain.length,"Index and terrain length must be equal");
-        require(_townId < contractTowns.getTownCount(),"town have not been created");
+        require(_townId <= contractTowns.getTownCount(),"town have not been created");
 
         TownMap storage town = townMaps[_townId];
         for (uint256 i = 0; i < _index.length; i++) {
@@ -47,7 +47,7 @@ contract TownMaps {
     }
 
     function getTownTiles(uint256 _townId) external view returns (uint256[] memory tiles, uint256[] memory terrains) {
-        require(_townId < contractTowns.getTownCount(),"Town have not been created");
+        require(_townId <= contractTowns.getTownCount(),"Town have not been created");
         TownMap storage town = townMaps[_townId];
 
         tiles = new uint256[](town.tiles.length);
@@ -63,7 +63,7 @@ contract TownMaps {
 
     // 获取某个小镇某个地图格子的属性
     function getMapTile(uint256 _townId, uint256 index) external view returns (uint256) {
-        require(_townId < contractTowns.getTownCount(),"Town have not been created");
+        require(_townId <= contractTowns.getTownCount(),"Town have not been created");
 
         MapTile memory tile = townMaps[_townId].mapTiles[index];
         return tile.terrain;
