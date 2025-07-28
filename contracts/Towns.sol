@@ -9,6 +9,7 @@ contract Towns is ERC721URIStorage {
         string townName;
         string townAddress;
         uint64 time;
+        string townData;
     }
     uint256 private townCount;
     mapping(uint256 => Town) private towns;
@@ -52,6 +53,22 @@ contract Towns is ERC721URIStorage {
 
         Town storage town = towns[_townId];
         town.time = uint64(block.timestamp);
+    }
+
+    function townBuild(uint256 _townId, string calldata data) external {
+        require(
+            ownerOf(_townId) == msg.sender,
+            "Only the town owner can update the town"
+        );
+
+        Town storage town = towns[_townId];
+        town.townData = data;
+    }
+
+    function getTownData(uint256 _townId) external view returns (string memory) {
+        require(_townId < getTownCount(),"Town have not been created");
+        Town memory town = towns[_townId];
+        return town.townData;
     }
 
     function getTownAddress(uint256 _townId) external view returns (string memory) {

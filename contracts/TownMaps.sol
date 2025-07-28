@@ -20,12 +20,8 @@ contract TownMaps {
 
     event MapTileUpdated(uint256 townId, uint256 index, uint256 terrain, bool isOccupied, uint256 resources);
 
-    // 设置某个小镇地图格子的属性
-    function editTownTile(
-        uint256 _townId,
-        uint256[] calldata _index,
-        uint256[] calldata _terrain
-    ) external {
+    // 设置小镇地图格子的属性
+    function editTownTile(uint256 _townId, uint256[] calldata _index, uint256[] calldata _terrain) external {
         require(_index.length == _terrain.length,"Index and terrain length must be equal");
         require(_townId <= contractTowns.getTownCount(),"town have not been created");
 

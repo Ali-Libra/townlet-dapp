@@ -10,10 +10,10 @@ async function main() {
   const townAddress = await towns.getAddress();
   console.log("towns contract deployed to:", townAddress);
 
-  const TownMapFactory = await hre.ethers.getContractFactory("TownMaps");
-  const townMap = await TownMapFactory.deploy(townAddress);
-  await townMap.waitForDeployment();
-  console.log("townMap deployed to:", await townMap.getAddress());
+  // const TownMapFactory = await hre.ethers.getContractFactory("TownMaps");
+  // const townMap = await TownMapFactory.deploy(townAddress);
+  // await townMap.waitForDeployment();
+  // console.log("townMap deployed to:", await townMap.getAddress());
 }
 
 main()
